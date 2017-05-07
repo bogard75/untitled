@@ -1,4 +1,5 @@
 import requests
+import threading
 import numpy as np
 import io
 from bs4 import BeautifulSoup
@@ -77,13 +78,14 @@ def write_second_history_of(date_list):
     # 대구 139130 부산 138930 전북 175330 광주 192530 제주 006220
     # 신한 055550 국민 105560 하나 086790 기업 024110 우리 000030
     # date_list = ['20170424', '20170425', '20170426', '20170427', '20170428', '20170423', '20170422', '20170421']
-    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030']
+    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030',
+                  '005930','066570','000660','030190','034310','012510','036800','178780','064090','036570']
     stock_code.sort()
 
     for to_day in date_list:
         a = np.array(range(0, 9, 1))
         for code in stock_code:
-            print('(%s) Quoting ... %s' % (to_day, code))
+            print('[%s] (%s) Quoting ... %s' % (threading.currentThread().getName(), to_day, code))
             quote = naver_daily_second_hist_of(to_day, code)
             a = np.append(a, quote)
 
@@ -92,12 +94,13 @@ def write_second_history_of(date_list):
 
 
 def write_current_10_quotes(outfile):
-    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030']
+    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030',
+                  '005930','066570','000660','030190','034310','012510','036800','178780','064090','036570']
     stock_code.sort()
 
     output_file = io.open(outfile, "w", encoding='utf-8')
     for code in stock_code:
-        print('Quoting ... %s' % code)
+        #print('[%s] Quoting ... %s' % (threading.currentThread().getName(), code))
         quotes_of_code = naver_current_10_quote_of(code).tolist()
         for quotes in quotes_of_code:
             for q in quotes:
@@ -107,12 +110,13 @@ def write_current_10_quotes(outfile):
 
 
 def write_current_top_players(outfile):
-    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030']
+    stock_code = ['139130','138930','175330','192530','006220','055550','105560','086790','024110','000030',
+                  '005930','066570','000660','030190','034310','012510','036800','178780','064090','036570']
     stock_code.sort()
 
     output_file = io.open(outfile, "w", encoding='utf-8')
     for code in stock_code:
-        print('Quoting ... %s' % code)
+        #print('[%s] Quoting ... %s' % (threading.currentThread().getName(), code))
         r = naver_current_top_players_of(code).tolist()
         for li in r:
             for i in li:
@@ -122,6 +126,6 @@ def write_current_top_players(outfile):
 
 """
 write_second_history_of(date_list=['20170504'])
-write_current_10_quotes(outfile='C:/Users/bogard/PycharmProjects/untitled/out_sise.txt')
-write_current_top_players(outfile='C:/Users/bogard/PycharmProjects/untitled/out_frgn.txt')
+write_current_10_quotes(outfile='out_sise.txt')
+write_current_top_players(outfile='out_frgn.txt')
 """

@@ -1,34 +1,49 @@
 import threading
 import bs
 
-from time import sleep
+from time import sleep, localtime, strftime
+
 
 class Thread_1(threading.Thread):
     def run(self):
+        run_count = 0
         while True:
-            sleep(30)
+            print("[%s] %s" % (++run_count, threading.currentThread().getName()))
             bs.write_second_history_of(date_list=['20170504'])
-            print(threading.currentThread().getName())
+            sleep(wait_seconds)
+
 
 class Thread_2(threading.Thread):
     def run(self):
+        run_count = 0
         while True:
-            sleep(10)
-            bs.write_current_top_players(outfile='C:/Users/bogard/PycharmProjects/untitled/out_frgn.txt')
-            print(threading.currentThread().getName())
+            out_file_name = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+            print("[%s] %s" % (run_count, threading.currentThread().getName()))
+            bs.write_current_top_players(outfile=out_file_name)
+            sleep(30)
+            run_count = run_count + 1
+
 
 class Thread_3(threading.Thread):
     def run(self):
+        run_count = 0
         while True:
-            sleep(10)
-            bs.write_current_10_quotes(outfile='C:/Users/bogard/PycharmProjects/untitled/out_sise.txt')
-            print(threading.currentThread().getName())
+            out_file_name = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+            print("[%s] %s" % (run_count, threading.currentThread().getName()))
+            bs.write_current_10_quotes(outfile=out_file_name)
+            sleep(30)
+            run_count = run_count + 1
 
-t1 = Thread_1(name='write_second_history_of')
-t2 = Thread_2(name='write_current_top_players')
-t3 = Thread_3(name='write_current_10_quotes')
+#t1 = Thread_1(name='second_history_of')
+t2 = Thread_2(name='current_top_players')  # 10초 간격으로 상위거래 5사 정보 긁기
+t3 = Thread_3(name='current_10_quotes')    # 10초 간격으로 매도/매수 10호가 정보 긁기
 
-t1.start()
+#t1.start()
 t2.start()
 t3.start()
+
+while True:
+    sleep(60)
+    print("Count of active thread : %s" % threading.activeCount())
+
 
