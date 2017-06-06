@@ -17,9 +17,13 @@ class Thread_2(threading.Thread):
     def run(self):
         run_count = 0
         while True:
-            out_file_name = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-            print("[%s] %s" % (run_count, threading.currentThread().getName()))
-            bs.write_current_top_players(outfile=out_file_name)
+            try:
+                out_file_name = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                print("[%s] %s" % (run_count, threading.currentThread().getName()))
+                bs.write_current_top_players(outfile=out_file_name)
+            except:
+                pass
+
             sleep(10)
             run_count = run_count + 1
 
@@ -28,9 +32,13 @@ class Thread_3(threading.Thread):
     def run(self):
         run_count = 0
         while True:
-            out_file_name = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-            print("[%s] %s" % (run_count, threading.currentThread().getName()))
-            bs.write_current_10_quotes(outfile=out_file_name)
+            try:
+                out_file_name = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                print("[%s] %s" % (run_count, threading.currentThread().getName()))
+                bs.write_current_10_quotes(outfile=out_file_name)
+            except:
+                pass
+
             sleep(10)
             run_count = run_count + 1
 
