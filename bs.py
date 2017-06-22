@@ -3,7 +3,6 @@ import threading
 import numpy as np
 import io
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 
 def naver_daily_second_hist_of(stock_code, working_date):
