@@ -18,11 +18,14 @@ class run_traders(threading.Thread):
     def run(self):
         count = 0
         name = threading.currentThread().getName()
-        while '090000' <= strftime("%H%M%S", localtime()) <= '153000':
+        while True:
             try:
-                out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-                print("[%s] %s" % (count, name))
-                bs.write_traders(stocks=stocks, outfile=out)
+                if '083000' <= strftime("%H%M%S", localtime()) <= '160000'
+                    out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                    print("[%s: %s] %s" % (count, name, out))
+                    bs.write_traders(stocks=stocks, outfile=out)
+                else:
+                    print("[%s: %s] Idle..." % (count, name))
             except:
                 pass
 
@@ -33,13 +36,15 @@ class run_traders(threading.Thread):
 class run_10_quote(threading.Thread):
     def run(self):
         count = 0
-        while '090000' <= strftime("%H%M%S", localtime()) <= '153000':
+        name = threading.currentThread().getName()
+        while True:
             try:
-                out = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-                name = threading.currentThread().getName()
-
-                print("[%s] %s" % (count, name))
-                bs.write_10_quotes(stocks=stocks, outfile=out)
+                if '083000' <= strftime("%H%M%S", localtime()) <= '160000':
+                    out = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                    print("[%s: %s] %s" % (count, name, out))
+                    bs.write_10_quotes(stocks=stocks, outfile=out)
+                else:
+                    print("[%s, %s] Idle..." % (count, name))
             except:
                 pass
 
