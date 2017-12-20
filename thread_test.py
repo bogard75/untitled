@@ -18,7 +18,7 @@ class run_traders(threading.Thread):
     def run(self):
         count = 0
         name = threading.currentThread().getName()
-        while strftime("%H%M%S", localtime()) <= '153000':
+        while '090000' <= strftime("%H%M%S", localtime()) <= '153000':
             try:
                 out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
                 print("[%s] %s" % (count, name))
@@ -33,7 +33,7 @@ class run_traders(threading.Thread):
 class run_10_quote(threading.Thread):
     def run(self):
         count = 0
-        while strftime("%H%M%S", localtime()) <= '153000':
+        while '090000' <= strftime("%H%M%S", localtime()) <= '153000':
             try:
                 out = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
                 name = threading.currentThread().getName()
@@ -55,7 +55,7 @@ stocks = ['139130', '138930', '175330', '192530', '006220', '055550', '105560', 
 stocks = stocks.sort()
 
 #일과 중 실시간으로 실행 (Thread, 10초 간격)
-t2 = run_traders(name='current_top_players')  # 10초 간격으로 상위거래 5사 정보 긁기
+t2 = run_traders(name='run_traders')  # 10초 간격으로 상위거래 5사 정보 긁기
 t2.start()
 t3 = run_10_quote(name='run_10_quote')    # 10초 간격으로 매도/매수 10호가 정보 긁기
 t3.start()
