@@ -4,52 +4,60 @@ import bs
 from time import sleep, localtime, strftime
 
 
-class Thread_1(threading.Thread):
+class run_day_log(threading.Thread):
     def run(self):
-        run_count = 0
+        count = 0
+        name = threading.currentThread().getName()
         while True:
-            print("[%s] %s" % (++run_count, threading.currentThread().getName()))
-            bs.write_second_history_of(date_list=['20170508'])
+            print("[%s] %s" % (count, name))
+            bs.write_day_log(stocks=stocks, dates=['20170508'])
             sleep(wait_seconds)
 
 
-class Thread_2(threading.Thread):
+class run_traders(threading.Thread):
     def run(self):
-        run_count = 0
-        while True:
+        count = 0
+        name = threading.currentThread().getName()
+        while strftime("%H%M%S", localtime()) <= '153000':
             try:
-                out_file_name = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-                print("[%s] %s" % (run_count, threading.currentThread().getName()))
-                bs.write_current_top_players(outfile=out_file_name)
+                out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                print("[%s] %s" % (count, name))
+                bs.write_traders(stocks=stocks, outfile=out)
             except:
                 pass
 
             sleep(10)
-            run_count = run_count + 1
+            count += 1
 
 
-class Thread_3(threading.Thread):
+class run_10_quote(threading.Thread):
     def run(self):
-        run_count = 0
-        while True:
+        count = 0
+        while strftime("%H%M%S", localtime()) <= '153000':
             try:
-                out_file_name = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
-                print("[%s] %s" % (run_count, threading.currentThread().getName()))
-                bs.write_current_10_quotes(outfile=out_file_name)
+                out = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
+                name = threading.currentThread().getName()
+
+                print("[%s] %s" % (count, name))
+                bs.write_10_quotes(stocks=stocks, outfile=out)
             except:
                 pass
 
             sleep(10)
-            run_count = run_count + 1
+            count += 1
 
 #일과 종료 후 한번 실행 (날짜 바꾸고)
 #t1 = Thread_1(name='second_history_of')
 #t1.start()
 
+stocks = ['139130', '138930', '175330', '192530', '006220', '055550', '105560', '086790', '024110', '000030',
+          '005930', '066570', '000660', '030190', '034310', '012510', '036800', '178780', '064090', '036570']
+stocks = stocks.sort()
+
 #일과 중 실시간으로 실행 (Thread, 10초 간격)
-t2 = Thread_2(name='current_top_players')  # 10초 간격으로 상위거래 5사 정보 긁기
+t2 = run_traders(name='current_top_players')  # 10초 간격으로 상위거래 5사 정보 긁기
 t2.start()
-t3 = Thread_3(name='current_10_quotes')    # 10초 간격으로 매도/매수 10호가 정보 긁기
+t3 = run_10_quote(name='run_10_quote')    # 10초 간격으로 매도/매수 10호가 정보 긁기
 t3.start()
 
 while True:
