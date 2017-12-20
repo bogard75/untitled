@@ -20,7 +20,7 @@ class run_traders(threading.Thread):
         name = threading.currentThread().getName()
         while True:
             try:
-                if '083000' <= strftime("%H%M%S", localtime()) <= '160000'
+                if '083000' <= strftime("%H%M%S", localtime()) <= '160000':
                     out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
                     print("[%s: %s] %s" % (count, name, out))
                     bs.write_traders(stocks=stocks, outfile=out)
