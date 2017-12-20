@@ -44,7 +44,7 @@ class run_10_quote(threading.Thread):
                     print("[%s: %s] %s" % (count, name, out))
                     bs.write_10_quotes(stocks=stocks, outfile=out)
                 else:
-                    print("[%s, %s] Idle..." % (count, name))
+                    print("[%s: %s] Idle..." % (count, name))
             except:
                 pass
 
