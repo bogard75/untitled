@@ -21,7 +21,7 @@ class run_traders(threading.Thread):
         name = threading.currentThread().getName()
         while True:
             try:
-                if '083000' <= strftime("%H%M%S", localtime()) <= '990000':
+                if '083000' <= strftime("%H%M%S", localtime()) <= '163000':
                     out = 'out_frgn%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
                     print("[%s: %s] %s" % (count, name, out))
                     bs.write_traders(stocks=stocks, outfile=out)
@@ -41,7 +41,7 @@ class run_10_quote(threading.Thread):
         name = threading.currentThread().getName()
         while True:
             try:
-                if '083000' <= strftime("%H%M%S", localtime()) <= '990000':
+                if '083000' <= strftime("%H%M%S", localtime()) <= '163000':
                     out = 'out_sise%s.txt' % strftime("%Y%m%d%H%M%S", localtime())
                     print("[%s: %s] %s" % (count, name, out))
                     bs.write_10_quotes(stocks=stocks, outfile=out)
