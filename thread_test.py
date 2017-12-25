@@ -63,6 +63,8 @@ with open('STOCK_CODE', 'r', encoding='UTF-8') as f:
 stocks = [line.split('|')[0] for line in lines]
 
 #일과 중 실시간으로 실행 (Thread, 10초 간격)
+
+print("[ Start ] Count of stocks : %s" % len(stocks))
 t2 = run_traders(name="run_traders")  # 10초 간격으로 상위거래 5사 정보 긁기
 #t2.run(stocks=stocks)
 t2.start()
