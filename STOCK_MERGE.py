@@ -1,6 +1,8 @@
+import os
 from os import walk
 import pandas as pd
 
+path = os.getcwd()
 #path = r'C:\Users\taeil\Documents\GitHub\untitled'
 f = []
 for (dirpath, dirnames, filenames) in walk(path):
