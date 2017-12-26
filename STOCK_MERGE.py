@@ -2,11 +2,11 @@ import os
 from os import walk
 import pandas as pd
 
-path = os.getcwd()
+#path = os.getcwd()
 #path = r'C:\Users\taeil\Documents\GitHub\untitled'
-f = []
-for (dirpath, dirnames, filenames) in walk(path):
-    f.extend(filenames)
+file_list = []
+for (dirpath, dirnames, filenames) in walk('/root/works/untitled/'):
+    file_list.extend(filenames)
     break
 
 def frgn_to_df(filename):
@@ -24,15 +24,11 @@ def sise_to_df(filename):
     return df
 
 # 201712월 frgn → One File로
-k = [s for s in f if s[:14] == 'out_frgn201712']
-l = pd.concat(map(frgn_to_df, k), ignore_index=True).drop_duplicates(keep='first')
+files = [name for name in file_list if name[:16] == 'out_frgn20171226']
+pd.concat(map(frgn_to_df, files), ignore_index=True).drop_duplicates(keep='first').to_csv('tot_frgn20171226.txt', sep='|', index=None, encoding='UTF-8')
 
-l.to_csv('out_frgn201712.txt', sep='|', index=None, encoding='UTF-8')
-<<<<<<< HEAD
-=======
+files = [name for name in file_list if name[:16] == 'out_sise20171226']
+pd.concat(map(sise_to_df, files), ignore_index=True).drop_duplicates(keep='first').to_csv('tot_sise20171226.txt', sep='|', index=None, encoding='UTF-8')
 
-k = [s for s in f if s[:14] == 'out_sise201712']
-l = pd.concat(map(sise_to_df, k), ignore_index=True).drop_duplicates(keep='first')
 
-l.to_csv('out_sise201712.txt', sep='|', index=None, encoding='UTF-8')
->>>>>>> d3bba610c7e4ab883b576f626b472022f04c170c
+
