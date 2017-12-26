@@ -30,17 +30,20 @@ def gather(files, df_func, outfile):
 
 def main(argv):
     file_list = []
-    for (dirpath, dirnames, filenames) in walk('/root/works/untitled/'):
+    for (dirpath, dirnames, filenames) in walk('/root/works/untitled/out'):
         file_list.extend(filenames)
         break
 
-    gather(files=[name for name in file_list if name[:16] == 'out_frgn%s' % argv],
+    print('[STOCK_MERGE] %s files in out directory...' % len(file_list))
+    print('[STOCK_MERGE] gathering out_frgn%s files...' % argv[0])
+ 
+    gather(files=[name for name in file_list if name[:16] == 'out_frgn%s' % argv[0]],
            df_func=frgn_to_df,
-           outfile='tot_frgn%s.txt' % argv)
+           outfile='tot_frgn%s.txt' % argv[0])
 
-    gather(files=[name for name in file_list if name[:16] == 'out_sise%s' % argv],
+    gather(files=[name for name in file_list if name[:16] == 'out_sise%s' % argv[0]],
            df_func=sise_to_df,
-           outfile='tot_sise%s.txt' % argv)
+           outfile='tot_sise%s.txt' % argv[0])
 
 if __name__ == "__main__":
     main(sys.argv[1:])
