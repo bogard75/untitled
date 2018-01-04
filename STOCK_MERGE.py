@@ -1,10 +1,11 @@
 import sys
 from os import walk
 import pandas as pd
-
+import glob
 
 # path = os.getcwd()
 # path = r'C:\Users\taeil\Documents\GitHub\untitled'
+
 
 def frgn_to_df(filename):
     df = pd.read_csv(filename,
@@ -21,26 +22,27 @@ def sise_to_df(filename):
                      names=['입수일시', '종목코드', '매도잔량', '매도호가', '매수호가', '매수잔량', '_'])
     return df
 
-
-# 201712월 frgn → One
-def gather(files, df_func, outfile):
-    data = pd.concat(map(frgn_to_df, files), ignore_index=True).drop_duplicates(keep='first')
-    data.to_csv(outfile, sep='|', index=None, encoding='UTF-8')
+def gather(files, df_func):
+    if len(files) <= 0:
+        return None
+    else:
+        data = df_func(files[0])
+        for file in files:
+            data.append(df_func(file), ignore_index=True).drop_duplicates(keep='first')
+        return data
+    # data.to_csv(outfile, sep='|', index=None, encoding='UTF-8')
 
 
 def main(argv):
-    file_list = []
-    for (dirpath, dirnames, filenames) in walk('/root/works/untitled/'):
-        file_list.extend(filenames)
-        break
+    # Naver linux : /root/works/untitled/
+    # Asus Vivonote : c:\\users\\taeil\\
 
-    gather(files=[name for name in file_list if name[:16] == 'out_frgn%s' % argv],
-           df_func=frgn_to_df,
-           outfile='tot_frgn%s.txt' % argv)
+    df = gather(files=glob.glob('out_frgn%s*.txt' % argv), df_func=frgn_to_df)
+    df.to_csv('tot_frgn%s.txt' % argv, sep='|', index=None, encoding='UTF-8')
 
-    gather(files=[name for name in file_list if name[:16] == 'out_sise%s' % argv],
-           df_func=sise_to_df,
-           outfile='tot_sise%s.txt' % argv)
+    df = gather(files=glob.glob('out_sise%s*.txt' % argv), df_func=sise_to_df)
+    df.to_csv('tot_sise%s.txt' % argv, sep='|', index=None, encoding='UTF-8')
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
