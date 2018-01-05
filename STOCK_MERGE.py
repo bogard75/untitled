@@ -24,14 +24,15 @@ def sise_to_df(filename):
 
 
 def gather_to_csv(files, df_func, outfile):
-    if len(files) <= 0:
-        return None
-    else:
+    if files:
         data = df_func(files[0])
         for file in files:
             data.append(df_func(file), ignore_index=True).drop_duplicates(keep='first')
         data.to_csv(outfile, sep='|', index=None, encoding='UTF-8')
         return True
+    else:
+        return None
+
 
 
 def main(argv):
