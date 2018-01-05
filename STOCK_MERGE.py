@@ -22,23 +22,21 @@ def sise_to_df(filename):
                      names=['입수일시', '종목코드', '매도잔량', '매도호가', '매수호가', '매수잔량', '_'])
     return df
 
-def gather(files, df_func):
+
+def gather_to_csv(files, df_func, outfile):
     if len(files) <= 0:
         return None
     else:
         data = df_func(files[0])
         for file in files:
             data.append(df_func(file), ignore_index=True).drop_duplicates(keep='first')
-        return data
-    # data.to_csv(outfile, sep='|', index=None, encoding='UTF-8')
+        data.to_csv(outfile, sep='|', index=None, encoding='UTF-8')
+        return True
 
 
 def main(argv):
-    # Naver linux : /root/works/untitled/
-    # Asus Vivonote : c:\\users\\taeil\\
-
-    df = gather(files=glob.glob('out_frgn%s*.txt' % argv), df_func=frgn_to_df)
-    df.to_csv('tot_frgn%s.txt' % argv, sep='|', index=None, encoding='UTF-8')
+    gather_to_csv(files=glob.glob('out_frgn%s*.txt' % argv), df_func=frgn_to_df, outfile='tot_frgn%s.txt' % argv)
+    gather_to_csv(files=glob.glob('out_sise%s*.txt' % argv), df_func=sise_to_df, outfile='sise_frgn%s.txt' % argv)
 
     df = gather(files=glob.glob('out_sise%s*.txt' % argv), df_func=sise_to_df)
     df.to_csv('tot_sise%s.txt' % argv, sep='|', index=None, encoding='UTF-8')
