@@ -12,7 +12,7 @@ def frgn_to_df(filename):
                      sep='|',
                      dtype=object,
                      names=['입수일시', '종목코드', '매수구분', '거래기관', '거래량', '_'])
-    return df
+    return dfcd out
 
 
 def sise_to_df(filename):
