@@ -90,11 +90,11 @@ def naver_traders(stock):
     for li in quotes:
         data.append(li.text.strip())
 
-    quotes_lst0 = [timestamp] * 12                    # 조회시각
-    quotes_lst1 = [stock] * 12                        # 업체코드
+    quotes_lst0 = [timestamp] * 12                   # 조회시각
+    quotes_lst1 = [stock] * 12                       # 업체코드
     quotes_lst2 = ['매도', '매수'] * 6                 # 매매구분
     quotes_lst3 = data[0:10] + ['외국추정', '외국추정'] # 거래기관
-    quotes_lst4 = data[11:23]                         # 거래량
+    quotes_lst4 = data[11:23]                        # 거래량
 
     r = np.array([quotes_lst0, quotes_lst1, quotes_lst2, quotes_lst3, quotes_lst4]).transpose()
     return r
